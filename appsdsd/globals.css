@@ -1,0 +1,345 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
+@import "tailwindcss";
+
+:root {
+  --bg:         #0a0705;
+  --bg2:        #110d0a;
+  --bg3:        #1a1410;
+  --surface:    rgba(255,255,255,0.05);
+  --surface2:   rgba(255,255,255,0.08);
+  --border:     rgba(255,255,255,0.08);
+  --accent:     #9f1239;
+  --accent-lit: #e11d48;
+  --accent-glow:rgba(159,18,57,0.4);
+  --gold:       #d4a96a;
+  --white:      #ffffff;
+  --muted:      rgba(255,255,255,0.5);
+  --muted2:     rgba(255,255,255,0.25);
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--white);
+}
+
+*, *::before, *::after { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
+
+html { 
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'DM Sans', Arial, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Subtle dark texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 80% 10%, rgba(159,18,57,0.12) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 5%  90%, rgba(159,18,57,0.07) 0%, transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ══════════════════════════════════════════════════════════
+   ANIMACIONES BASE
+══════════════════════════════════════════════════════════ */
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes wave {
+  0%   { d: path("M0,40 C200,80 400,0 600,45 C800,90 900,10 1440,40 L1440,100 L0,100 Z"); }
+  50%  { d: path("M0,60 C200,20 400,75 600,55 C800,30 900,80 1440,60 L1440,100 L0,100 Z"); }
+  100% { d: path("M0,40 C200,80 400,0 600,45 C800,90 900,10 1440,40 L1440,100 L0,100 Z"); }
+}
+
+/* Clases de animación con delay */
+.anim-1 { animation: fadeUp 0.7s 0.05s ease both; }
+.anim-2 { animation: fadeUp 0.7s 0.18s ease both; }
+.anim-3 { animation: fadeUp 0.7s 0.31s ease both; }
+.anim-4 { animation: fadeUp 0.7s 0.44s ease both; }
+.anim-5 { animation: fadeUp 0.7s 0.57s ease both; }
+.anim-fade { animation: fadeIn 1.2s ease both; }
+
+/* ══════════════════════════════════════════════════════════
+   EFECTO SHIMMER ULTRA-LENTO (15 SEGUNDOS)
+══════════════════════════════════════════════════════════ */
+
+@keyframes shimmerUltraSlow {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* CLASE PRINCIPAL: Aplicar a títulos rojos/rosas */
+.text-shimmer-heavy {
+  background: linear-gradient(
+    110deg,
+    #9f1239 0%, 
+    #e11d48 30%,
+    #ff5f87 50%, 
+    #e11d48 70%,
+    #9f1239 100%
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  animation: shimmerUltraSlow 15s ease-in-out infinite;
+  will-change: background-position;
+}
+
+/* Variante para dorado (si lo necesitas) */
+.text-shimmer-gold {
+  background: linear-gradient(90deg, #d4a96a, #f5d49a, #d4a96a);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmerUltraSlow 10s linear infinite;
+}
+
+/* ══════════════════════════════════════════════════════════
+   SLIDER / CAROUSEL
+══════════════════════════════════════════════════════════ */
+
+.slider-track {
+  display: flex;
+  gap: 1.25rem;
+  transition: transform 0.55s cubic-bezier(.4,0,.2,1);
+  will-change: transform;
+}
+
+.slider-card {
+  flex: 0 0 calc(33.333% - 0.85rem);
+  min-width: 240px;
+}
+
+@media (max-width: 768px) {
+  .slider-card { flex: 0 0 82%; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   TABLA OSCURA
+══════════════════════════════════════════════════════════ */
+
+.table-dark {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.table-dark thead {
+  background: rgba(159,18,57,0.12);
+  border-bottom: 1px solid var(--border);
+}
+
+.table-dark th {
+  padding: 1.4rem 2rem;
+  text-align: center;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  white-space: nowrap;
+}
+
+.table-dark tbody tr {
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: background 0.2s ease;
+}
+
+.table-dark tbody tr:last-child {
+  border-bottom: none;
+}
+
+.table-dark tbody tr:hover {
+  background: rgba(255,255,255,0.025);
+}
+
+.table-dark td {
+  padding: 2rem 2rem;
+  text-align: center;
+  color: var(--white);
+  vertical-align: middle;
+}
+
+/* ══════════════════════════════════════════════════════════
+   CARDS DE RESTAURANTE
+══════════════════════════════════════════════════════════ */
+
+.rest-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  padding: 2.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.rest-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(159,18,57,0.05) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.rest-card:hover {
+  border-color: rgba(159,18,57,0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(159,18,57,0.15);
+}
+
+.rest-card:hover::before {
+  opacity: 1;
+}
+
+/* ══════════════════════════════════════════════════════════
+   BADGES
+══════════════════════════════════════════════════════════ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.badge-available {
+  background: rgba(16,185,129,0.15);
+  color: #10b981;
+  border: 1px solid rgba(16,185,129,0.25);
+}
+
+.badge-cuisine {
+  background: rgba(212,169,106,0.1);
+  color: var(--gold);
+  border: 1px solid rgba(212,169,106,0.2);
+}
+
+/* ══════════════════════════════════════════════════════════
+   VIEW TRANSITIONS API (Transiciones nativas de página)
+══════════════════════════════════════════════════════════ */
+
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root) {
+  animation: 0.4s ease-in-out both fade-out;
+}
+
+::view-transition-new(root) {
+  animation: 0.6s ease-in-out both fade-up-smooth;
+}
+
+@keyframes fade-out { 
+  from { opacity: 1; } 
+  to { opacity: 0; } 
+}
+
+@keyframes fade-up-smooth {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════════════════════════════
+   UTILIDADES DE CENTRADO
+══════════════════════════════════════════════════════════ */
+
+.centrado-axial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ══════════════════════════════════════════════════════════
+   OPTIMIZACIONES DE RENDIMIENTO
+══════════════════════════════════════════════════════════ */
+
+/* Smooth transitions para enlaces */
+a, button {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* GPU acceleration para animaciones */
+.gpu-accelerated {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+/* Reduce motion para accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   MEJORAS DE ACCESIBILIDAD
+══════════════════════════════════════════════════════════ */
+
+/* Focus visible para navegación por teclado */
+*:focus-visible {
+  outline: 2px solid var(--accent-lit);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Ocultar elementos visualmente pero mantener accesibles */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
